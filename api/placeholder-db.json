@@ -39878,92 +39878,26 @@
   "todos": [
     {
       "userId": 1,
-      "title": "rake leaves",
+      "title": "did my work",
       "completed": true,
       "id": 1
     },
     {
       "userId": 1,
-      "title": "make kids lunches",
-      "completed": true,
+      "title": "To do work",
+      "completed": false,
       "id": 2
-    },
-    {
-      "userId": 1,
-      "title": "Walk the Dog",
-      "completed": false,
-      "id": 3
-    },
-    {
-      "userId": 1,
-      "title": "do laundry",
-      "completed": false,
-      "id": 4
-    },
-    {
-      "userId": 1,
-      "title": "Brush Teeth (Don't forget to take cap off)",
-      "completed": false,
-      "id": 5
-    },
-    {
-      "userId": 1,
-      "title": "unload dishwasher",
-      "completed": true,
-      "id": 6
-    },
-    {
-      "userId": 1,
-      "title": "another one (DJ KAHLED!)",
-      "completed": true,
-      "id": 7
     }
   ],
   "courses": [
     {
-      "id": 1,
       "dept": "CompSci",
-      "courseNum": 101,
-      "courseName": "HTML5 and CSS3",
-      "instructor": "Rob",
-      "startDate": "July 8",
-      "numDays": 10
-    },
-    {
-      "id": 2,
-      "dept": "CompSci",
-      "courseNum": 102,
-      "courseName": "JavaScript",
-      "instructor": "Dana",
-      "startDate": "July 22",
-      "numDays": 35
-    },
-    {
-      "id": 3,
-      "dept": "CompSci",
-      "courseNum": 201,
-      "courseName": "Angular",
-      "instructor": "Rob",
-      "startDate": "Sep 9",
-      "numDays": 15
-    },
-    {
-      "id": 4,
-      "dept": "CompSci",
-      "courseNum": 301,
+      "courseNum": "301",
       "courseName": "Java",
       "instructor": "Maaike",
       "startDate": "Oct 1",
-      "numDays": 15
-    },
-    {
-      "id": 5,
-      "dept": "CompSci",
-      "courseNum": 302,
-      "courseName": "C#",
-      "instructor": "Dana",
-      "startDate": "Oct 1",
-      "numDays": 15
+      "numDays": "15",
+      "id": 4
     },
     {
       "id": 6,
@@ -40029,13 +39963,13 @@
       "numDays": 5
     },
     {
-      "id": 13,
       "dept": "Finance",
       "courseNum": "101",
       "courseName": "Basic Finance",
       "instructor": "Pursalane",
       "startDate": "Jun 1",
-      "numDays": 5
+      "numDays": "5",
+      "id": 13
     },
     {
       "id": 14,
@@ -40056,13 +39990,31 @@
       "numDays": 5
     },
     {
-      "id": 16,
       "dept": "Finance",
       "courseNum": "401",
       "courseName": "Tax Laws",
       "instructor": "Brittany",
       "startDate": "Aug 1",
-      "numDays": 5
+      "numDays": "5",
+      "id": 16
+    },
+    {
+      "dept": "Hip-Hop",
+      "courseNum": "303",
+      "courseName": "MCs Will Thrive",
+      "instructor": "Eminem",
+      "startDate": "Dec 15",
+      "numDays": "25",
+      "id": 18
+    },
+    {
+      "dept": "Real Cats Only",
+      "courseNum": "555",
+      "courseName": "Yarn Balls",
+      "instructor": "Garfield",
+      "startDate": "Sept 15",
+      "numDays": "30",
+      "id": 19
     }
   ]
 }

@@ -13,6 +13,7 @@
 
     function addCourse(event) {
       event.preventDefault();
+      console.log("got here")
 
       const bodyData = {
         dept: deptInput.value,
@@ -30,7 +31,8 @@
       }).then((response) => response.json())
         .then((data) => {
           console.log(data);
-          messageParagraph.innerText = "Successfully added.";
+          window.location = "./course.html";
+          sessionStorage.message = "Successfully added.";
         })
         .catch((err) => {
           console.log(err);

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+    <title>Delete Course</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="./index.html">Home</a>
+            <a href="./course.html">Courses</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Delete Courses</h1>
+            <form>
+                <label for="deptInput">Department:</label>
+                <input type="text" name="deptInput" id="deptInput" disabled>
+                <label for="courseNumInput">Course Number:</label>
+                <input type="text" name="courseNumInput" id="courseNumInput"disabled>
+                <label for="courseNameInput">Course Name:</label>
+                <input type="text" name="courseNameInput" id="courseNameInput" disabled>
+                <label for="instructorInput">Instructor:</label>
+                <input type="text" name="instructorInput" id="instructorInput" disabled>
+                <label for="startDateInput">Start Date:</label>
+                <input type="text" name="startDateInput" id="startDateInput" disabled>
+                <label for="numDaysInput">Number of Days:</label>
+                <input type="text" name="numDaysInput" id="numDaysInput"disabled>
+                <button>Delete</button> <button><a href="./course.html">Cancel</a></button>
+            </form>
+            <p id="messageParagraph"></p>
+
+    </main>
+            <script>
+                (function () {
+                    const $q = (s) => document.querySelector(s);
+
+                    const deptInput = $q("#deptInput");
+                    const courseNumInput = $q("#courseNumInput");
+                    const courseNameInput = $q("#courseNameInput");
+                    const instructorInput = $q("#instructorInput");
+                    const startDateInput = $q("#startDateInput");
+                    const numDaysInput = $q("#numDaysInput");
+                    const form = $q("form");
+                    const messageParagraph = $q("#messageParagraph");
+
+                    function getCourseId() {
+                        const params = new URLSearchParams(location.search);
+                        return params.get("courseid");
+                    }
+
+                    function loadCourse(courseId) {
+                        fetch(`http://localhost:8888/courses/${courseId}`)
+                            .then(response => response.json())
+                            .then(course => {
+                                console.log(course)
+                                deptInput.value = course.dept;
+                                courseNumInput.value = course.courseNum;
+                                courseNameInput.value = course.courseName;
+                                instructorInput.value = course.instructor;
+                                startDateInput.value = course.startDate;
+                                numDaysInput.value = course.numDays;
+                            })
+                    }
+
+                    function deleteCourse(event) {
+                        event.preventDefault();
+                        const id = getCourseId();
+
+                        fetch("http://localhost:8888/courses/" + id, {
+                            method: "DELETE"
+                        }).then((response) => response.json())
+                            .then((data) => {
+                                console.log(data);
+                                sessionStorage.message = "Succesfully deleted."
+                                window.location = "./course.html"
+                                
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                                messageParagraph.innerText = "Unsuccessful please try again.";
+                            });
+                    }
+                    
+
+
+                    window.onload = () => {
+                        loadCourse(getCourseId());
+                        form.onsubmit = deleteCourse;
+                    }
+
+
+                })()
+            </script>
+    
+</body>
+</html>
