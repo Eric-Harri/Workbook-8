@@ -10,61 +10,89 @@
     </head>
 
     <body>
-        <h1>Todo List</h1>
-        <nav>
-            <a href="./todos.html">Todos List</a>
-            <a href="./new-todo.html">New Todos</a>
-        </nav>
-        <h2>Users</h2>
-
-        <div>
+        <header>
+            <nav>
+                <li><a href="./todos.html">Todos List</a></li>
+                <li><a href="./new-todo.html">New Todos</a></li>
+            </nav>
+        </header>
+        <main>
+            <h1>Todo List</h1>
             <select name="userDropdown" id="userDropdown">
                 <option value="">Select User...</option>
             </select>
+            
+            <section id="todosList">
+
+            </section>
             <a href="./new-todo.html">+Add Task</a>
-        </div>
-
-       
-
-        <table id="todos-table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Actions</th>
-                    <th>Completed</th>
-                </tr>
-            </thead>
-
-            <tbody></tbody>
-        </table>
+        </main>
+        <footer></footer>
         <script src="./scripts/common.js"></script>
         <script>
+            const userDropdown = $q("#userDropdown");
+            const todosList = $q("#todosList")
 
-            
-            
-            function loadUserDropdown() {
-                 fetch("http://localhost:8083/api/users/")
-                    .then(response => response.json())
-                    .then((data) => {
-                        const userDropdown = $q("#userDropdown");
-                        for (const user of data) {
 
-                            const option = document.createElement("option");
-                            option.value = user.id;
-                            option.innerText = user.name;
-
-                            //OR
-                            // const option = new Option(user.name, user.id);
-
-                            userDropdown.appendChild(option);
-                        }
-                    });
+            function loadUsers() {
+                return fetch("http://localhost:8083/api/users/")
+                    .then(response => response.json());
             }
 
-            
+            function fillUsersDropdown(users) {
+                for(const user of users) {
+                    const option = document.createElement("option");
+                    option.value = user.id;
+                    option.innerText = user.name;
+                    userDropdown.appendChild(option);
+                }
+            }
+
+
+            function loadTodos(userId) {
+                return fetch("http://localhost:8083/api/todos/byuser/" + userId).then(response => response.json());
+            }
+
+            function createToDoCard(todo) {
+                const cardDiv = document.createElement("div");
+                cardDiv.classList.add("card");
+
+                const categoryElement = document.createElement("p");
+                const priorityElement = document.createElement("p");
+                const descriptionElement = document.createElement("p");
+                const deadlineElement = document.createElement("p");
+
+                categoryElement.innerText = todo.category;
+                priorityElement.innerText= todo.priority;
+                descriptionElement.innerText = todo.description; 
+                deadlineElement.innerText = todo.deadline; 
+
+                cardDiv.append(categoryElement, priorityElement, descriptionElement, deadlineElement);
+
+                return cardDiv;
+            }
+
+            function fillTodosList(todos) {
+                todosList.innerHTML = "";
+                console.log(todos)
+                for(const todo of todos) {
+                    todosList.appendChild(createToDoCard(todo));
+                }
+            }
+
+            function userSelected() {
+                const userId = userDropdown.value;
+                loadTodos(userId).then(data => fillUsersDropdown(data));
+            }
+
+
             window.onload = function () {
-                loadUserDropdown();
-               
+                loadUsers().then(data => fillUsersDropdown(data));
+
+                //loadUserDropdown().then(fillUsersDropdown);
+
+                userDropdown.onchange = userSelected;
+
 
             }
         </script>
