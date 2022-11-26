@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./styles/styles.css">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <h1>Todo List</h1>
+        <nav>
+            <a href="./todos.html">Todos List</a>
+            <a href="./new-todo.html">New Todos</a>
+        </nav>
+        <h2>Users</h2>
+
+        <div>
+            <select name="userDropdown" id="userDropdown">
+                <option value="">Select User...</option>
+            </select>
+            <a href="./new-todo.html">+Add Task</a>
+        </div>
+
+       
+
+        <table id="todos-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Actions</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+        </table>
+        <script src="./scripts/common.js"></script>
+        <script>
+
+            
+            
+            function loadUserDropdown() {
+                 fetch("http://localhost:8083/api/users/")
+                    .then(response => response.json())
+                    .then((data) => {
+                        const userDropdown = $q("#userDropdown");
+                        for (const user of data) {
+
+                            const option = document.createElement("option");
+                            option.value = user.id;
+                            option.innerText = user.name;
+
+                            //OR
+                            // const option = new Option(user.name, user.id);
+
+                            userDropdown.appendChild(option);
+                        }
+                    });
+            }
+
+            
+            window.onload = function () {
+                loadUserDropdown();
+               
+
+            }
+        </script>
+    </body>
+
+</html>
