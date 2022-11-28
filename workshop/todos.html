@@ -6,13 +6,15 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./styles/styles.css">
-        <title>Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <title>Todos</title>
     </head>
 
     <body>
         <header>
             <nav>
-                <li><a href="./todos.html">Todos List</a></li>
+                <li><a href="./index.html">Home</a></li>
                 <li><a href="./new-todo.html">New Todos</a></li>
             </nav>
         </header>
@@ -21,37 +23,25 @@
             <select name="userDropdown" id="userDropdown">
                 <option value="">Select User...</option>
             </select>
-            
+            <button id="addTaskButton">+ Add Task</button>
             <section id="todosList">
-
             </section>
-            <a href="./new-todo.html">+Add Task</a>
         </main>
         <footer></footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
         <script src="./scripts/common.js"></script>
         <script>
-            const userDropdown = $q("#userDropdown");
+            const usersDropDownList = $q("#userDropdown");
             const todosList = $q("#todosList")
-
-
-            function loadUsers() {
-                return fetch("http://localhost:8083/api/users/")
-                    .then(response => response.json());
-            }
-
-            function fillUsersDropdown(users) {
-                for(const user of users) {
-                    const option = document.createElement("option");
-                    option.value = user.id;
-                    option.innerText = user.name;
-                    userDropdown.appendChild(option);
-                }
-            }
-
+            const addTaskButton = $q("#addTaskButton")
 
             function loadTodos(userId) {
                 return fetch("http://localhost:8083/api/todos/byuser/" + userId).then(response => response.json());
             }
+
 
             function createToDoCard(todo) {
                 const cardDiv = document.createElement("div");
@@ -63,9 +53,9 @@
                 const deadlineElement = document.createElement("p");
 
                 categoryElement.innerText = todo.category;
-                priorityElement.innerText= todo.priority;
-                descriptionElement.innerText = todo.description; 
-                deadlineElement.innerText = todo.deadline; 
+                priorityElement.innerText = todo.priority;
+                descriptionElement.innerText = todo.description;
+                deadlineElement.innerText = todo.deadline;
 
                 cardDiv.append(categoryElement, priorityElement, descriptionElement, deadlineElement);
 
@@ -75,23 +65,40 @@
             function fillTodosList(todos) {
                 todosList.innerHTML = "";
                 console.log(todos)
-                for(const todo of todos) {
+                for (const todo of todos) {
                     todosList.appendChild(createToDoCard(todo));
                 }
             }
 
             function userSelected() {
-                const userId = userDropdown.value;
-                loadTodos(userId).then(data => fillUsersDropdown(data));
+                const userId = usersDropDownList.value;
+                if (!userId) return;
+                loadTodos(userId).then(data => fillTodosList(data))
+                window.history.pushState({}, "Todos", './todos.html?userId=' + userId)
+            }
+
+            function addTask() {
+                if (usersDropDownList.value) {
+                    window.location.href = "./new-todo.html?userId=" + usersDropDownList.value;
+                } else {
+                    window.location.href = "./new-todo.html";
+                }
             }
 
 
             window.onload = function () {
-                loadUsers().then(data => fillUsersDropdown(data));
+                const selectedUserId = getUserId();
+                loadUsers().then(data => {
+                    fillUsersDropDown(data, selectedUserId)
+                    if (selectedUserId) {
+                        userSelected();
+                    }
+                });
 
-                //loadUserDropdown().then(fillUsersDropdown);
+                //loadUsers().then(fillUsersDropdown);
 
-                userDropdown.onchange = userSelected;
+                usersDropDownList.onchange = userSelected;
+                addTaskButton.onclick = addTask;
 
 
             }
