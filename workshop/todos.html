@@ -14,16 +14,19 @@
     <body>
         <header>
             <nav>
-                <li><a href="./index.html">Home</a></li>
-                <li><a href="./new-todo.html">New Todos</a></li>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="./index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="./todos.html">Todo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./new-todo.html">New Todos</a></li>
+                </ul>
             </nav>
         </header>
-        <main>
+        <main class="text-center">
             <h1>Todo List</h1>
             <select name="userDropdown" id="userDropdown">
                 <option value="">Select User...</option>
             </select>
-            <button id="addTaskButton">+ Add Task</button>
+            <button id="addTaskButton" class="btn btn-primary">+ Add Task</button>
             <section id="todosList">
             </section>
         </main>
